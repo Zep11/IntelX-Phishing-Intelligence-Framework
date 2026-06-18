@@ -1,6 +1,6 @@
 from validator import valid_url
 from parser import parse_url
-
+from url_features import check_url_length
 
 
 # TOOL INTRO 
@@ -35,3 +35,16 @@ if valid_url(user_url):
 
 else:
     print("Invalid URL ")
+
+# Checking URL Features
+# Checking URL length
+
+length_info= check_url_length(user_url)
+
+#Printing the URL Features 
+print("Checking Length of the URL ")
+print("--------------------------" )
+if length_info["its_long"]:
+    print("⚠️ Suspicious: URL is unusually long")
+else:
+    print("✅ URL length looks normal")
