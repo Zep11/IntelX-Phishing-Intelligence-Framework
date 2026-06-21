@@ -71,3 +71,11 @@ def subd_check(subdomain):
     subd1=subdomain.split(".")
     subd_count= len(subd1)
     return subd_count
+
+def port_check(port):
+    if port is None :
+        return False
+    elif port == 80 | port == 443: 
+        return  False
+    else:
+        return True 
