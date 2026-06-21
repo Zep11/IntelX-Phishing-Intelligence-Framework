@@ -19,6 +19,7 @@ def parse_url(url):
             "domain" : None , 
             "hostname" : hostname,
             "subdomain" : None ,
+            "port" : parsed.port, 
             "path" : parsed.path , 
             "query" : parsed.query
         }
@@ -31,6 +32,7 @@ def parse_url(url):
             "domain" :  f"{extracted.domain}.{extracted.suffix}" ,
             "subdomain" : extracted.subdomain ,
             "hostname" : None , 
+            "port" : parsed.port ,
             "path" : parsed.path , 
             "query" : parsed.query
     }
