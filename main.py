@@ -9,7 +9,8 @@ from signals import http_check
 from signals import punnycode_check
 from signals import url_shorteners
 from signals import subd_check
-
+from signals import port_check
+from config  import(check_config, setup_config , load_config)
 
 # TOOL INTRO 
 def welcome():
@@ -17,19 +18,29 @@ def welcome():
     console.print("        PHISHING URL ANALYZER" , style="bold red")
     print(" Just Enter the URL and Let me do my work for you  ")
     print("=" * 50)
+welcome()
+
+#Checking for Configuration
+if not check_config():
+    setup_config()
+    console.print("\n[System]   Configuration Loaded...", style="blue")
+api_keys= load_config()
 
 # FETCHING THE URL 
 def get_url():
-    url = input("\nEnter a URL: ").strip().lower()
+    url = input("\nEnter a URL\n > ").strip().lower()
     return url
 
 
-welcome()
+
 
 user_url=get_url()
 
 if valid_url(user_url):
     console.print("\n[Analysing] ..." , style="blue")
+    console.print("\n [Target URL]", style="blue" )
+    console.print("------------------------------", style="dim" )
+    print(user_url)
     parsed_data=parse_url(user_url)
 
     console.print("\n[Parsed URL Information]" , style="blue ")
@@ -38,6 +49,7 @@ if valid_url(user_url):
     print("Domain :", parsed_data["domain"])
     print("hostname :", parsed_data["hostname"])
     print("Subdomain :", parsed_data["subdomain"])
+    print("Port :" , parsed_data["port"])
     print("Path   :", parsed_data["path"])
     print("Query  :", parsed_data["query"])
     console.print("-" * 30, style="dim")
@@ -51,7 +63,7 @@ else:
 length_info= check_url_length(user_url)
 
 #Printing the URL Features 
-console.print("[SIGNALS] " , style ="blue")
+console.print("[URL Inspection ] " , style ="blue")
 console.print("------------------------------", style="dim" )
 if length_info["its_long"]:
     console.print("⚠️  Suspicious: Long URL detected" , style="yellow")
@@ -77,8 +89,10 @@ else:
     console.print("✅ No Suspicious Keywords found " , style="green")
 
 http_signals=http_check(parsed_data["scheme"])
-console.print(f"⚠️   http detected in the URL : {http_signals} " , style="yellow")
-
+if http_signals == True :
+    console.print(f"⚠️  http detected in the URL : {http_signals} " , style="yellow")
+else: 
+    console.print(f"✅  http detected in the URL : {http_signals} " , style="green")
 punny_check = punnycode_check(parsed_data["domain"])
 if punny_check == True :
     console.print ("⚠️  Suspicious :  Punnycode Detected ", style="yellow")
@@ -91,4 +105,8 @@ subd_count_check = subd_check(parsed_data["subdomain"])
 if subd_count_check > 3:
     console.print(f"⚠️   Suspicious - Count of Subdomain : {subd_count_check}" , style="yellow")
 else:
-    console.print (f"✅  - Subdomain count is Normal " , style="green")
+    console.print (f"✅  Subdomain count is Normal " , style="green")
+
+check_port=port_check(parsed_data["port"])
+console.print(f"⚠️  Non-Standard Port :  {check_port} " , style="yellow")
+console.print("------------------------------", style="dim" )
