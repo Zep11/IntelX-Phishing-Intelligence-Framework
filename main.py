@@ -10,7 +10,13 @@ from signals import punnycode_check
 from signals import url_shorteners
 from signals import subd_check
 from signals import port_check
-from config  import(check_config, setup_config , load_config)
+from config  import (check_config, setup_config , load_config , api_check)
+from Threat_Intel.virus_total import virustotal_lookup
+from Threat_Intel.urlscan_io import urlscan_lookup 
+from Threat_Intel.abuseipdb import abuseipdb_lookup
+from Threat_Intel.whois import whois_lookup
+from utils import create_report_folders
+create_report_folders()                                      #Instantly Create Folders for reports
 
 # TOOL INTRO 
 def welcome():
@@ -20,11 +26,21 @@ def welcome():
     print("=" * 50)
 welcome()
 
-#Checking for Configuration
+#Checking for Configuration and LOADING 
 if not check_config():
     setup_config()
-    console.print("\n[System]   Configuration Loaded...", style="blue")
-api_keys= load_config()
+    api_keys= load_config()
+    print(api_keys)
+else :
+    api_keys = load_config()
+    print(api_keys)
+    if not api_check(api_keys):
+        choice = input("\n No API Configured.\n "
+                   "Would you like to add soxme for better results ? (Y/N)\n > ").strip().upper()
+        if choice=="Y":
+            setup_config()
+            api_keys=load_config()     
+
 
 # FETCHING THE URL 
 def get_url():
@@ -110,3 +126,32 @@ else:
 check_port=port_check(parsed_data["port"])
 console.print(f"⚠️  Non-Standard Port :  {check_port} " , style="yellow")
 console.print("------------------------------", style="dim" )
+
+
+
+vt_key = api_keys.get("vt_key")
+
+print("\n[DEBUG] Calling VirusTotal...\n")  #TEMPORARY CALL STATEMENT   
+
+vt_result = virustotal_lookup(user_url, vt_key)
+
+# URLSCAN FIELD 
+# calling the function to check 
+
+urlscan_key = api_keys.get("urlscan_key")               
+print("\n[DEBUG] Calling URLSCAN.IO ...\n")  #TEMPORARY CALL STATEMENT 
+urlscan_result = urlscan_lookup(user_url, urlscan_key)
+
+#ABUSEIPDB FIELD 
+#calling the function to check 
+
+pageip = urlscan_result.get("page_ip")
+print("\n[DEBUG] Calling ABUSEIPDB ...\n")  #TEMPORARY CALL STATEMENT 
+abuse_key = api_keys.get("abuse_key")
+abuse_result = abuseipdb_lookup(pageip , abuse_key)
+
+#WHOIS SECTION
+#Calling the function to check 
+print("\n[DEBUG] Calling WhoIS ...\n")
+whois_result = whois_lookup(parsed_data["domain"])
+
