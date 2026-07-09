@@ -15,6 +15,7 @@ from Threat_Intel.virus_total import virustotal_lookup
 from Threat_Intel.urlscan_io import urlscan_lookup 
 from Threat_Intel.abuseipdb import abuseipdb_lookup
 from Threat_Intel.whois import whois_lookup
+from Threat_Intel.google_safe import google_safe_browsing_lookup
 from utils import create_report_folders
 create_report_folders()                                      #Instantly Create Folders for reports
 
@@ -155,3 +156,8 @@ abuse_result = abuseipdb_lookup(pageip , abuse_key)
 print("\n[DEBUG] Calling WhoIS ...\n")
 whois_result = whois_lookup(parsed_data["domain"])
 
+#GOOGLE SAFE BROWSING SECTION
+#Calling the function to check
+print("\n[DEBUG] Calling Google Safe Browsing ...\n")
+gsb_key = api_keys.get("gsb_key")
+gsb_result = google_safe_browsing_lookup(user_url, gsb_key)
