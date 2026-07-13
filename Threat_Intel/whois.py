@@ -13,7 +13,6 @@ def whois_lookup(domain):
         raw_result = dict(result)
         with open("reports/raw_rprt/whoislookup/whois_raw_rprt.json", "w", encoding="utf-8") as file:
             json.dump(raw_result, file, indent=4, default=str)
-        print("[+] WHOIS raw report saved reports/raw_rprt/whoislookup/whois_raw_rprt.json")
 
         whois_data = parse_whois_data(raw_result)
 
@@ -21,7 +20,6 @@ def whois_lookup(domain):
 
         with open("reports/clean_rprt/whoislookup/whois_clean_report.txt", "w", encoding="utf-8") as file:
             file.write(report)
-        print("[+] WHOIS clean report saved reports/clean_rprt/whoislookup/whois_clean_report.txt")
 
         return whois_data
 
