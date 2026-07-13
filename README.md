@@ -140,7 +140,7 @@ Phishing_URL_Analyzer
 Clone the repository
 
 ```bash
-git clone https://github.com/zep11/Phishing_URL_Analyzer.git
+git clone https://github.com/Zep11/PHISHING_URL_ANALYZER.git
 ```
 
 Navigate into the project
