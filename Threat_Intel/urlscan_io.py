@@ -42,7 +42,6 @@ def urlscan_lookup(url , api_keys):
     scan_uuid = result.get("uuid")
 
     #TEMPORARY 
-    print("Please wait ")
     time.sleep(10)
 
     # Fetch the Complete Scan , calling the fetching function 
@@ -51,25 +50,14 @@ def urlscan_lookup(url , api_keys):
     #Creating the raw report 
     with open("reports/raw_rprt/urlscan/url_scan_raw_rprt.json", "w" , encoding="utf-8") as file:
         json.dump(full_result, file, indent=4)
-    print("[+] URLSCAN clean report saved to reports/raw_rprt/urlscan/urlscan_io.txt")
 
     urlscan_data = parse_urlscan_data(full_result)
-
-    # Temporary debugging prints
-    print("\n========== URLScan Summary ==========")
-    print("Verdict      :", urlscan_data.get("verdict"))
-    print("Page Title   :", urlscan_data.get("page_title"))
-    print("Final URL    :", urlscan_data.get("final_url"))
-    print("IP Address   :", urlscan_data.get("page_ip"))
-    print("ASN          :", urlscan_data.get("page_asn_name"))
-    print("Brand        :", urlscan_data.get("brand"))
-    print("=====================================\n")
 
     report = generate_urlscan_report(urlscan_data)
 
     with open("reports/clean_rprt/urlscan/urlscan_io.txt", "w", encoding="utf-8") as file:
         file.write(report)
-    print("[+] URLSCAN clean report saved to reports/clean_rprt/urlscan/urlscan_io.txt")
+    
 
     return urlscan_data
     
