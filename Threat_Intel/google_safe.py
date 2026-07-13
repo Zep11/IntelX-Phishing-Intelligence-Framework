@@ -50,7 +50,7 @@ def google_safe_browsing_lookup(url, api_keys):
     with open("reports/raw_rprt/google_safe_browsing/gsb_raw_rprt.json", "w", encoding="utf-8") as file:
         json.dump(full_result, file, indent=4)
     
-    print("\n[DEBUG] Google Safe Browsing API response saved to gsb_raw_rprt.json")  # Debugging statement
+
 
 
     gsb_data = parse_gsb_data(full_result , url)
@@ -61,7 +61,7 @@ def google_safe_browsing_lookup(url, api_keys):
 
     with open("reports/clean_rprt/google_safe_browsing/gsb_clean_report.txt", "w", encoding="utf-8") as file:
         file.write(report)
-    print("[+] Google Safe Browsing clean report saved reports/clean_rprt/google_safe_browsing/gsb_clean_report.txt")
+    
 
     return gsb_data
 
