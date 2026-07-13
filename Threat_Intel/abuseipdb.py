@@ -35,9 +35,6 @@ def abuseipdb_lookup(ip , api_keys):
     params=params
     )
 
-    #Temporary  
-    print("[DEBUG] AbuseIPDB Status:", response.status_code)
-    #print("[DEBUG] AbuseIPDB Response:", response.text)
 
     if response.status_code != 200:
         return {
@@ -50,15 +47,13 @@ def abuseipdb_lookup(ip , api_keys):
     with open("reports/raw_rprt/abuseipdb/abuseipdb_raw_rprt.json", "w", encoding="utf-8") as file:
         json.dump(result, file, indent=4)
 
-    print("[+] AbuseIPDB raw report saved reports/raw_rprt/abuseipdb/abuseipdb_raw_rprt.json")
+    
 
     #parsing the data and generating a clean report 
     abuse_data = parse_abuseipdb_data(result)
     report = generate_ipdb_report(abuse_data)
     with open("reports/clean_rprt/abuseipdb/abuseipdb_clean_report.txt", "w", encoding="utf-8") as file:
-        file.write(report)
-
-    print("[+] AbuseIPDB clean report saved reports/clean_rprt/abuseipdb/abuseipdb_clean_report.txt")                           #generating clean report 
+        file.write(report) 
     return abuse_data
 
 def parse_abuseipdb_data(result):
