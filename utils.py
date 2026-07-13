@@ -12,6 +12,7 @@ def create_report_folders():
         "reports/clean_rprt/abuseipdb",
         "reports/clean_rprt/whoislookup",
         "reports/clean_rprt/google_safe_browsing",
+        "reports/final_report"
     ]
 
     for folder in folders:
