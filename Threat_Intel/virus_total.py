@@ -39,14 +39,12 @@ def virustotal_lookup(url , api_key):
     if full_result.get("status") != "Error":
         with open("reports/raw_rprt/virustotal/vt_raw_rprt.json", "w" , encoding="utf-8") as file:
             json.dump(full_result, file, indent=4)
-        print("[+] VirusTotal full URL response saved to vt_raw_rprt.json")
 
 
         vt_data = parse_vt_data(full_result)
         report = generate_vt_report(vt_data)
         with open("reports/clean_rprt/virustotal/vt_clean_report.txt", "w", encoding="utf-8") as file:
             file.write(report)
-        print("[+] VirusTotal clean report saved to vt_clean_report.txt")
 
         return vt_data
 
@@ -94,7 +92,7 @@ def virustotal_lookup(url , api_key):
             with open("reports/raw_rprt/virustotal/vt_raw_rprt.json", "w" , encoding="utf-8") as file:
                 json.dump(full_result, file, indent=4)
 
-            print("[+] VirusTotal full URL response saved to vt_raw_rprt.json")
+            # print("[+] VirusTotal full URL response saved to vt_raw_rprt.json")
 
             vt_data = parse_vt_data(full_result)
             report = generate_vt_report(vt_data)
@@ -102,7 +100,7 @@ def virustotal_lookup(url , api_key):
             with open("reports/clean_rprt/virustotal/vt_clean_report.txt", "w", encoding="utf-8") as file:
                 file.write(report)
 
-            print("[+] VirusTotal clean report saved to vt_clean_report.txt")
+            # print("[+] VirusTotal clean report saved to vt_clean_report.txt")
             
             return vt_data
         
