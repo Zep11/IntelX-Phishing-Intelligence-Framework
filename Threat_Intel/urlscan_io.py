@@ -1,66 +1,126 @@
+from urllib import response
+from urllib.parse import urlparse
 import requests
 import time 
 import json
 
-def urlscan_lookup(url , api_keys):
-    if not api_keys:
-        return{
-            "status ": "No API-Key Configured"
-        }
+def search_existing_scan(url, api_key):
 
-    # Endpoint to submit the URL 
-    endpoint = "https://urlscan.io/api/v1/scan"
+    # Remove leading/trailing whitespace
+    url = url.strip()
 
-    #Headers to Sent to the Website
+    # Extract hostname
+    parsed = urlparse(url)
+
+    domain = parsed.hostname
+
+    if not domain:
+        return None
+
+    endpoint = f"https://urlscan.io/api/v1/search/?q=domain:{domain}&size=1"
 
     headers = {
-        "API-Key": api_keys , 
-        "Content-Type": "application/json"
+        "API-Key": api_key
     }
 
-    #Payload/Data to send to the Website 
-
-    payload = {
-        "url" : url , 
-        "visibility" : "public"
-    }
-
-    response = requests.post(
-        endpoint , headers=headers , json=payload
-    )
-
-    #NOW CHECKING THE RESPONSE
-
+    response = requests.get(endpoint, headers=headers)
     if response.status_code != 200:
+        return None
+
+    result = response.json()
+    if result.get("total", 0) == 0:
+        return None
+
+    latest = result["results"][0]
+    return latest["_id"]
+
+#URLScan Lookup Function
+def urlscan_lookup(url, api_keys):
+
+    if not api_keys:
         return {
-            "status": "Error",
-            "code": response.status_code
+            "status": "No API-Key Configured"
         }
-    
-    result= response.json()
-    # UUID is being returned out here .
-    scan_uuid = result.get("uuid")
 
-    #TEMPORARY 
-    time.sleep(10)
+    scan_uuid = search_existing_scan(url, api_keys)
 
-    # Fetch the Complete Scan , calling the fetching function 
-    full_result = wait_for_urlscan_result(scan_uuid , api_keys )
-    
-    #Creating the raw report 
-    with open("reports/raw_rprt/urlscan/url_scan_raw_rprt.json", "w" , encoding="utf-8") as file:
+    #########################################################
+    # Existing report found
+    #########################################################
+
+    if scan_uuid:
+
+        full_result = wait_for_urlscan_result(scan_uuid, api_keys)
+
+    #########################################################
+    # Otherwise perform a live scan
+    #########################################################
+
+    else:
+        endpoint = "https://urlscan.io/api/v1/scan/"
+
+        headers = {
+            "API-Key": api_keys,
+            "Content-Type": "application/json"
+        }
+
+        payload = {
+            "url": url.strip(),
+            "visibility": "unlisted"
+        }
+
+        response = requests.post(
+            endpoint,
+            headers=headers,
+            json=payload
+        )
+
+        if response.status_code not in (200, 201):
+            
+            return {
+                "status": "Error",
+                "code": response.status_code
+            }
+
+        result = response.json()
+
+        scan_uuid = result.get("uuid")
+
+        
+
+        time.sleep(10)
+
+        full_result = wait_for_urlscan_result(scan_uuid, api_keys)
+
+    #########################################################
+    # Save Raw Report
+    #########################################################
+
+    with open(
+        "reports/raw_rprt/urlscan/url_scan_raw_rprt.json",
+        "w",
+        encoding="utf-8"
+    ) as file:
+
         json.dump(full_result, file, indent=4)
+
+    #########################################################
+    # Parse
+    #########################################################
 
     urlscan_data = parse_urlscan_data(full_result)
 
     report = generate_urlscan_report(urlscan_data)
 
-    with open("reports/clean_rprt/urlscan/urlscan_io.txt", "w", encoding="utf-8") as file:
+    with open(
+        "reports/clean_rprt/urlscan/urlscan_io.txt",
+        "w",
+        encoding="utf-8"
+    ) as file:
+
         file.write(report)
-    
 
     return urlscan_data
-    
 
 # fetch the Informations from the UUID . 
 
@@ -72,6 +132,7 @@ def fetch_urls_scan_result(scan_uuid , api_keys ):
     response = requests.get( 
         endpoint , headers=headers
     )
+    
     
     if response.status_code != 200:
         return {
@@ -279,7 +340,7 @@ Domain             : {urlscan_data.get("page_domain")}
 Apex Domain        : {urlscan_data.get("apex_domain")}
 Domain Age         : {urlscan_data.get("domain_age_days")}
 Certificate Issuer : {urlscan_data.get("tls_issuer")}
-Certificate Validity : {urlscan_data.get("tls_validity_days")}
+Certificate Validity : {urlscan_data.get("tls_valid_days")}
 
 ------------------------------------------------------------
 Browser Behaviour
@@ -316,7 +377,7 @@ Indicators of Compromise (IOCs)
 
 IPs Observed : {urlscan_data.get("observed_ips")}
 
-Domains Observed : {urlscan_data.get("overserved_domains")}
+Domains Observed : {urlscan_data.get("observed_domains")}
 
 Certificates : {urlscan_data.get("certificates")}
 
