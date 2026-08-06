@@ -1,5 +1,13 @@
-![Python](https://img.shields.io/badge/Python-3.10-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Status](https://img.shields.io/badge/Status-Active-success) ![Security](https://img.shields.io/badge/Threat%20Intelligence-Multi--Source-red)
+<p align="center">
+<img src="assets/Logo.png" width="350">
+</p>
 
+<p align="center">
+<img src="https://img.shields.io/badge/Python-3.10-blue">
+<img src="https://img.shields.io/badge/License-MIT-green">
+<img src="https://img.shields.io/badge/Status-Active-success">
+<img src="https://img.shields.io/badge/Threat%20Intelligence-Multi--Source-red">
+</p>
 
 # 🛡️ IntelX Phishing Intelligence Framework
 
