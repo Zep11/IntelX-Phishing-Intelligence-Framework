@@ -159,13 +159,13 @@ Phishing_URL_Analyzer
 Clone the repository
 
 ```bash
-git clone https://github.com/Zep11/PHISHING_URL_ANALYZER.git
+git clone https://github.com/Zep11/IntelX-Phishing-Intelligence-Framework.git
 ```
 
 Navigate into the project
 
 ```bash
-cd Phishing_URL_Analyzer
+cd IntelX-Phishing-Intelligence-Framework
 ```
 
 Create a virtual environment
