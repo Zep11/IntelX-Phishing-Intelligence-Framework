@@ -1,6 +1,21 @@
-# 🛡️ Phishing URL Analyzer
+![Python](https://img.shields.io/badge/Python-3.10-blue)
 
-> **An Automated Threat Intelligence Platform for Phishing URL Investigation**
+![License](https://img.shields.io/badge/License-MIT-green)
+
+![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
+
+![Status](https://img.shields.io/badge/Status-Active-success)
+
+![Security](https://img.shields.io/badge/Threat%20Intelligence-Multi--Source-red)
+
+
+
+
+
+
+# 🛡️ IntelX Phishing Intelligence Framework
+
+> **An Automated Multi-Source Phishing URL Investigation Platform**
 
 A comprehensive Python-based phishing URL investigation framework that combines **static URL analysis**, **multi-source threat intelligence**, and a **custom risk correlation engine** to determine the likelihood of a URL being malicious.
 
@@ -14,17 +29,25 @@ The tool performs automated investigations using industry-recognized threat inte
 
 The analyzer performs multiple heuristic checks before contacting external services.
 
-- URL Validation
-- URL Parsing
-- URL Length Analysis
-- HTTP/HTTPS Detection
-- Suspicious Keyword Detection
-- '@' Symbol Detection
-- Punycode Detection
-- URL Shortener Detection
-- IP Address Hostname Detection
-- Subdomain Analysis
-- Non-Standard Port Detection
+✔ URL Parsing & Validation
+
+✔ Heuristic URL Inspection
+
+✔ Punycode Detection
+
+✔ URL Shortener Detection
+
+✔ Suspicious Keyword Analysis
+
+✔ '@' Symbol Detection
+
+✔ IP Hostname Detection
+
+✔ HTTP/HTTPS Validation
+
+✔ Subdomain Enumeration
+
+✔ Non-standard Port Detection
 
 ---
 
