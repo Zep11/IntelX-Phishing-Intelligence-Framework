@@ -273,6 +273,7 @@ def main():
     # Temporary configuration flow
     api_keys = load_or_setup_configuration()
 
+
     vt_key = api_keys.get("vt_key")
     urlscan_key = api_keys.get("urlscan_key")
     abuse_key = api_keys.get("abuse_key")
@@ -281,7 +282,7 @@ def main():
     # Temporary API loading display
     show_api_loading({
         "VirusTotal": bool(vt_key),
-        "URLScan.io": bool(urlscan_key),
+        "URLScan.io": bool(urlscan_key and urlscan_key.strip()),
         "AbuseIPDB": bool(abuse_key),
         "Google Safe Browsing": bool(gsb_key),
         "WHOIS": True,
