@@ -1,4 +1,4 @@
-certifi==2026.6.17
+certifi==2026.10.19
 charset-normalizer==3.4.7
 filelock==3.29.4
 idna==3.18
