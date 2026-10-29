@@ -1,6 +1,6 @@
 certifi==2026.6.17
 charset-normalizer==3.4.7
-filelock==3.29.4
+filelock==4.2.1
 idna==3.18
 markdown-it-py==4.2.0
 mdurl==0.1.2
